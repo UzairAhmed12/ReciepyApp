@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block start %}
+   
+<div class="container mt-5" >
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Add Reciepy</h1>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Reciepy Name</label>
+          <input name="reciepy_name" required type="text" class="form-control">
+         
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Reciepy Description</label>
+          <textarea class="form-control" name="reciepe_description"  required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Reciepy Image</label>
+            <input name="reciepy_image" type="file" class="form-control">
+          </div>
+       
+        <button type="submit" class="btn btn-success">Add Reciepy</button>
+      </form>
+      <hr>
+
+      <form>
+
+      <div class="mt-5">
+        <div class="mx-auto col-6">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Search Reciepy</label>
+            <input name="search"   type="text" class="form-control">
+
+            
+           
+          </div>
+
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        </div>
+      </div>
+
+      
+
+
+      <table class="table mt-5">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Reciepy Name</th>
+            <th scope="col">Reciepy Description</th>
+            <th scope="col">Reciepy Image</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+            {% for receipe in receipes%}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{receipe.reciepy_name}}</td>
+            <td>{{receipe.reciepe_description}}</td>
+            <td>
+              {% if receipe.reciepy_image %}
+              <img src="{{ receipe.reciepy_image.url }}" width="200">
+              <td>
+                <a href="{% url 'delete_reciepe' receipe.id %}" class="btn btn-danger m-2">Delete</a>
+                <a href="{% url 'update_reciepe' receipe.id %}" class="btn btn-success">Update</a>
+
+
+
+              </td>
+          {% else %}
+              <p>No image available</p>
+          {% endif %}
+          
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+{% endblock %}
